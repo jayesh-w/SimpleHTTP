@@ -27,8 +27,9 @@ std::string FileManager::ParseFilePaths(std::filesystem::path p1) {
 	std::string corrected_path = "/";
 	std::vector<std::string> splitted_path = split_str(path, '\\');
 	std::string forwardSlash = "/";
-	for (int i = 1; i < splitted_path.size(); i++)
-		corrected_path = corrected_path + splitted_path[i];
+	for (int i = 1; i < splitted_path.size() - 1; i++)
+		corrected_path = corrected_path + splitted_path[i] + forwardSlash;
+	corrected_path = corrected_path + splitted_path[splitted_path.size() - 1];
 	return corrected_path;
 		
 }
@@ -37,7 +38,7 @@ FileManager::FileManager(std::string currect_working_dir) {
 	this->fileLength = 0;
 	// generate all the filepath and store it in the map
 	for (std::filesystem::recursive_directory_iterator i("."), end; i != end; ++i) {
-		/*std::cout << ParseFilePaths(i->path()) << std::endl;*/
+		//std::cout << ParseFilePaths(i->path()) << std::endl;
 		this->filemapper[ParseFilePaths(i->path())] = i->path();
 	}
 
